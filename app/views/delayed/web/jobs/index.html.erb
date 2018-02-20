@@ -5,11 +5,24 @@
   <h3><%= t('delayed/web.views.server_time') %> <%= l(Time.now, format: :short)%><h3>
 </div>
 
+
+<%= form_tag(jobs_path, method: :get) do %>
+  <%=
+    select_tag(
+      :job_name,
+      options_for_select(job_data.map{|name, count| ["#{name} (#{count})", name]} , params[:job_name]),
+      prompt: "Filter Jobs",
+      onchange: "this.form.submit()"
+    )
+  %>
+<% end %>
+
 <table class="table table-bordered">
   <thead>
     <tr>
       <th><%= t('delayed/web.views.id') %></th>
       <th><%= t('delayed/web.views.status') %></th>
+      <th><%= t('delayed/web.views.job_name') %></th>
       <th><%= t('delayed/web.views.current_queue') %></th>
       <th><%= t('delayed/web.views.created_at') %></th>
       <th><%= t('delayed/web.views.run_at') %></th>
@@ -28,6 +41,7 @@
               <%= t(job.status, scope: 'delayed/web.views.statuses').capitalize %>
             </span>
           </td>
+          <td title="<%= job.job_args %>"><%= job.job_name %></td>
           <td><%= job.queue %></td>
           <td style="font-size: 12px;"><%= l(job.created_at, format: :short) %></td>
           <td style="font-size: 12px;"><%= l(job.run_at, format: :short) %></td>

@@ -31,9 +31,16 @@ module Delayed
       helper_method :job
 
       def jobs
-        @jobs ||= Delayed::Web::Job.all
+        @jobs ||= params[:job_name].to_s.strip.length > 0 ?
+          Delayed::Web::Job.by_job_name(params[:job_name]) :
+          Delayed::Web::Job.all
       end
-      helper_method :jobs
+
+      def job_data
+        @job_data ||= Delayed::Web::Job.job_data
+      end
+
+      helper_method :jobs, :job_data
     end
   end
 end

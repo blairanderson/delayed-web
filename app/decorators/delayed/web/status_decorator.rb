@@ -1,6 +1,16 @@
 module Delayed
   module Web
     class StatusDecorator < SimpleDelegator
+      JOB_NAME_REGEX = /:(\w+){1}\n/
+
+      def job_name
+        JOB_NAME_REGEX.match(handler)[1]
+      end
+
+      def job_args
+        handler.split(job_name)[1]
+      end
+
       def status
         case
         when failed_at

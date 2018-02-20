@@ -7,6 +7,8 @@ module Delayed
 
       def_delegator :backend, :all
       def_delegator :backend, :find
+      def_delegator :backend, :by_job_name
+      def_delegator :backend, :job_data
 
       # Set the backend you're using for Delayed::Job.
       #
@@ -23,6 +25,7 @@ module Delayed
       def self.backend
         @backend
       end
+
     end
   end
 end
