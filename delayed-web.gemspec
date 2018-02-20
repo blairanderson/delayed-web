@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir['spec/**/*']
 
   s.add_dependency 'rails', '>= 3.2.13'
+  # s.add_dependency 'will_paginate', '~> 3.1.0'
 
   s.add_development_dependency 'capybara', '~> 2.7.1'
   s.add_development_dependency 'rspec-rails', '~> 3.5.2'
