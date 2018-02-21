@@ -6,7 +6,7 @@ module Delayed
       end
 
       def self.all
-        jobs = Delayed::Job.order('id DESC').limit(100)
+        jobs = Delayed::Job.order('id DESC').limit(1000)
         Enumerator.new do |enumerator|
           jobs.each do |job|
             enumerator.yield decorate(job)
@@ -29,7 +29,7 @@ module Delayed
         if job_name
           scope = scope.where("#{handler_to_job_name} = ?", job_name)
         end
-        jobs = scope.order("id DESC").limit(100)
+        jobs = scope.order("id DESC").limit(1000)
         Enumerator.new do |enumerator|
           jobs.each do |job|
             enumerator.yield decorate(job)

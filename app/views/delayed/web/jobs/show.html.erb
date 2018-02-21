@@ -19,6 +19,21 @@
   <%= t(job.status, scope: 'delayed/web.views.statuses').capitalize %>
 </p>
 
+<table>
+  <tr>
+    <td>created</td>
+    <td><%= job.created_at %></td>
+  </tr>
+  <tr>
+    <td>run</td>
+    <td><%= job.run_at %></td>
+  </tr>
+  <tr>
+    <td>failed</td>
+    <td><%= job.failed_at %></td>
+  </tr>
+</table>
+
 <h2><%= t('delayed/web.views.last_error') %></h2>
 <% if job.last_error.present? %>
   <pre><%= job.last_error %></pre>
