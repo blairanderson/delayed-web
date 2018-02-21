@@ -1,6 +1,27 @@
 module Delayed
   module Web
     class JobsController < Delayed::Web::ApplicationController
+      def batch
+        batch_params = params.require(:jobs).permit(:task, id: [])
+
+        if batch_params.dig(:task) == "retry"
+          retried = Delayed::Job.where(batch_params.slice(:id)).update_all({
+              run_at: Time.now - 1.week,
+              locked_at: nil,
+              locked_by: nil,
+              attempts: 0,
+              last_error: nil,
+              failed_at: nil
+            })
+          flash[:notice] = "#{retried} Retried"
+        elsif batch_params.dig(:task) == "delete"
+          deleted = Delayed::Job.where(batch_params.slice(:id)).delete_all
+          flash[:notice] = "#{deleted} Deleted"
+        end
+
+        redirect_to jobs_path
+      end
+
       def queue
         if job.can_queue?
           job.queue!

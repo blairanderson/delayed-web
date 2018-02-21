@@ -14,8 +14,10 @@ en:
       actions: Actions
       current_queue: Queue
       buttons:
+        retry_all: Retry All
         run_next: Run Next
         delete: Delete
+        delete_all: Delete All
       queue:
         empty: An empty queue is a good queue.
       errors:
