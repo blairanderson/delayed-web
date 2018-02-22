@@ -85,20 +85,25 @@
         </td>
         <td>
           <% if job.can_queue? %>
-            <%= button_to t('delayed/web.views.buttons.run_next'), queue_job_path(job), method: :put, class: 'btn btn-mini btn-action', form_class: 'btn-rails pull-left', title: t('delayed/web.views.buttons.run_next') %>
-            <% if job.can_destroy? %><br/>
-            <% end %>
+            <%= button_to t('delayed/web.views.buttons.run_next'), queue_job_path(job), method: :put, class: 'btn btn-mini btn-block', form_class: 'btn-rails', title: t('delayed/web.views.buttons.run_next') %>
           <% end %>
           <% if job.can_destroy? %>
-            <%= button_to t('delayed/web.views.buttons.delete'), job_path(job), method: :delete, class: 'btn btn-danger btn-mini btn-action', form_class: 'btn-rails pull-right', title: t('delayed/web.views.buttons.delete'), onclick: "return confirm('#{t('delayed/web.views.confirm.delete')}')" %>
+            <%= button_to t('delayed/web.views.buttons.delete'), job_path(job), method: :delete, class: 'btn btn-danger btn-mini btn-block', form_class: 'btn-rails', title: t('delayed/web.views.buttons.delete'), onclick: "return confirm('#{t('delayed/web.views.confirm.delete')}')" %>
           <% end %>
         </td>
       </tr>
     <% end %>
   <% else %>
     <tr>
-      <td colspan="7">
+      <td id="empty" colspan="7">
         <%= t('delayed/web.views.queue.empty') %>
+        <br/>
+        Reloading Page in 10 seconds
+        <script !src="">
+          setTimeout(function(){
+            window.location.reload();
+          }, 10000)
+        </script>
       </td>
     </tr>
   <% end %>
