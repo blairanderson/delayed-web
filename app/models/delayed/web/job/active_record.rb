@@ -25,7 +25,7 @@ module Delayed
       end
 
       def self.by_job_name(job_name=nil)
-        scope = Delayed::Job.select("*, #{handler_to_job_name} as job_name")
+        scope = Delayed::Job.where(locked_at: nil, locked_by: nil).where("last_error IS NOT NULL OR failed_at IS NOT NULL").select("*, #{handler_to_job_name} as job_name")
         if job_name
           scope = scope.where("#{handler_to_job_name} = ?", job_name)
         end
