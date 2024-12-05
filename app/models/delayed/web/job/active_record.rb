@@ -27,11 +27,7 @@ module Delayed
       end
 
       def self.by_job_name(job_name = nil)
-        scope = Delayed::Job.where(locked_at: nil, locked_by: nil).where("last_error IS NOT NULL OR failed_at IS NOT NULL").select("*, #{handler_to_job_name} as job_name")
-        if job_name
-          scope = scope.where("#{handler_to_job_name} = ?", job_name)
-        end
-        jobs = scope.order("id DESC").limit(1000)
+        jobs = Delayed::Job.where("handler like '%#{job_name}%'").order(ORDERING).limit(1000)
         Enumerator.new do |enumerator|
           jobs.each do |job|
             enumerator.yield decorate(job)
