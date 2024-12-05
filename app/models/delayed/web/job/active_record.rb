@@ -8,7 +8,7 @@ module Delayed
       ORDERING = Arel.sql("CASE WHEN failed_at IS NOT NULL THEN 0 ELSE 1 END, failed_at ASC NULLS LAST, id DESC")
 
       def self.all
-        jobs = Delayed::Job.order(Arel.sql("CASE WHEN failed_at IS NOT NULL THEN 0 ELSE 1 END, failed_at ASC NULLS LAST, id DESC")).limit(1000)
+        jobs = Delayed::Job.order(ORDERING).limit(1000)
         Enumerator.new do |enumerator|
           jobs.each do |job|
             enumerator.yield decorate(job)
